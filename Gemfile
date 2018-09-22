@@ -12,6 +12,7 @@ gem 'rack-cors'
 # auth
 gem 'devise', '~> 4.2'
 gem 'devise-jwt', '~> 0.5.8'
+gem 'cancancan', '~> 2.3'
 
 group :test do
   gem 'json-schema'

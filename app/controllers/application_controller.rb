@@ -1,5 +1,15 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate_user!
+
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: {
+        errors: [
+            {
+                status: '401',
+                title: 'Unauthorized'
+            }
+        ]
+    }, status: :unauthorized
+  end
 
   def render_resource(resource, _opt = nil)
     if resource.errors.empty?

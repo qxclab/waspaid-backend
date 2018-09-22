@@ -6,14 +6,14 @@ class Transaction < ApplicationRecord
   def as_json(_opt = nil)
     super({
           only: [
-              :id, :name, :description,
+              :id, :name, :description, :value,
               :invoice_id, :transaction_category_id
           ],
           include: {
-              invoices: {
+              invoice: {
                   only: [:id, :name, :description, :value]
               },
-              transaction_categories: {
+              transaction_category: {
                   only: [:id, :name]
               }
           }

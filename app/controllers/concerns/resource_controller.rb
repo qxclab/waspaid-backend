@@ -3,13 +3,15 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
+      load_and_authorize_resource
+
       before_action :attributes, :permitted_attributes
       before_action :collection, only: :index
       before_action :build_resource, only: :create
       before_action :resource, only: %i[show update destroy]
 
       def index
-        render json: resource_class.all.map(&:as_json)
+        render json: resource_class.all.select{|x| can?(:manage, x) }.map(&:as_json)
       end
 
       def show
