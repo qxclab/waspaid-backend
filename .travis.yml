@@ -1,0 +1,13 @@
+language: ruby
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: jNBHnJnpQBuw5MDGJEM2r2f9RX5eE5JzYJqNjJnoJ0633rzQpAGrNqdS8+YeBpAozI3cGTLVE1/1gGIRiI7nnU6ylLbilTw+cBi6zl0F5zEQqBXbQPUlx57NlPck7eJUcYQkkNpCsgCr6S13mrM8XmZAS2fxsz5zyXjRUeGNMwmCvgrgDjmPH041wYXPAI8IlmXEOFtrL+NxFqQ0OB45UHYKalOerCSHSqkBy2yD9elP8C2UP1p54CVRi6E5/Iv7aKeo9w6qTX3tDV4QWNIZhsgDFYAknvwto3MzI3j2uJsNGVJtPglcp0LGJ4vD3LYkazh4t1v2wYejReVpkcfEH+5L6+JfxnXuWDRKM2pd4XmwSRmpAteiUX1NflfiwtbZQcV6IpqDBPX6LyIEXER6hwEp3IgxQrTGq5cFsiqmIVLVmvCmIyWCPxhGOQwpKyr4HCr6UGcQ+hvC5vDJ+ocNPbTcWpBh1z+T6jVspduR+oLhHdBgAtjwnaKglreYPQt6JknR5JmjM6pTnc/gehoBHWHO7ICp9/WMHkL63nPx9wCD7ZhyO5jFEbVwQYELM+QtD4UC3MEzj5j4+TXl1rA5OMVwzb1j0p0SjFPwAoA5PduZ3llGKDVqRrIyWWamKwXw5giMo2tpNOhS9BRaw1pJy4NODKt35QqJ+0eb8FfCYBk=
+  app: 'waspaid-backend'
+  on:
+    repo: qxlab/waspaid-backend
+    branch: master
+  run:
+    - "rake db:migrate"
+    - "rake cleanup"
