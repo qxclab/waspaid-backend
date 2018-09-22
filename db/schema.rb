@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_22_123300) do
+ActiveRecord::Schema.define(version: 2018_09_22_154852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "invoices", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.decimal "value"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_invoices_on_user_id"
+  end
 
   create_table "jwt_blacklist", force: :cascade do |t|
     t.string "jti", null: false
@@ -21,6 +31,25 @@ ActiveRecord::Schema.define(version: 2018_09_22_123300) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["jti"], name: "index_jwt_blacklist_on_jti"
+  end
+
+  create_table "transaction_categories", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_transaction_categories_on_user_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.bigint "invoice_id"
+    t.bigint "transaction_category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_transactions_on_invoice_id"
+    t.index ["transaction_category_id"], name: "index_transactions_on_transaction_category_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -40,4 +69,8 @@ ActiveRecord::Schema.define(version: 2018_09_22_123300) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "invoices", "users"
+  add_foreign_key "transaction_categories", "users"
+  add_foreign_key "transactions", "invoices"
+  add_foreign_key "transactions", "transaction_categories"
 end

@@ -2,12 +2,16 @@
   "type": "object",
   "required" : [
     "id",
-    "email"
+    "email",
+    "invoices",
+    "transaction_categories",
+    "transactions"
   ],
   "properties": {
     "id" : { "type" : "integer" },
     "email" : { "type" : "string" },
-    "created_at" : { "type" : "string", "format": "date-time" },
-    "updated_at" : { "type" : "string", "format": "date-time" }
+    "invoices": { "type" : "array" },
+    "transaction_categories": { "type" : "array" },
+    "transactions": { "type" : "array" }
   }
 }

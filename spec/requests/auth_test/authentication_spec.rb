@@ -39,8 +39,8 @@ end
 RSpec.describe 'DELETE /logout', type: :request do
   let(:url) { '/logout' }
 
-  it 'returns 204, no content' do
+  it 'returns 200' do
     delete url
-    expect(response).to have_http_status(204)
+    expect(response).to have_http_status(200)
   end
 end

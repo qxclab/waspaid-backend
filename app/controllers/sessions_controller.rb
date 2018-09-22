@@ -4,10 +4,12 @@ class SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    render json: resource
+    render_resource(resource)
   end
 
   def respond_to_on_destroy
-    head :no_content
+    render json: {
+        success: :true
+    }, status: :ok
   end
 end
