@@ -13,14 +13,17 @@ gem 'rack-cors'
 gem 'devise', '~> 4.2'
 gem 'devise-jwt', '~> 0.5.8'
 
-gem 'coveralls', require: false
-
+group :test do
+  gem 'json-schema'
+end
 
 group :development, :test do
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
     gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
   gem 'fabrication', '~> 2.20', '>= 2.20.1'
+  gem 'faker', '~> 1.9', '>= 1.9.1'
+  gem 'coveralls', require: false
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 

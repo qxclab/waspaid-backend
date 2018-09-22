@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2018_09_22_123300) do
 
   create_table "jwt_blacklist", force: :cascade do |t|
     t.string "jti", null: false
+    t.datetime "exp", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["jti"], name: "index_jwt_blacklist_on_jti"
