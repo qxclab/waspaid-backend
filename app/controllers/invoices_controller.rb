@@ -5,6 +5,6 @@ class InvoicesController < ApplicationController
   private
 
   def permitted_attributes
-    @permitted_attributes ||= attributes.push('value') - %w( id created_at updated_at)
+    @permitted_attributes ||= attributes.push('value') - %w( id created_at updated_at user_id)
   end
 end
