@@ -9,6 +9,8 @@ class User < ApplicationRecord
   has_many :invoices, dependent: :destroy
   has_many :transaction_categories, dependent: :destroy
   has_many :transactions, through: :invoices, dependent: :destroy
+  has_many :issued, class_name: :Credit, foreign_key: :issued_id, dependent: :destroy
+  has_many :issuer, class_name: :Credit, foreign_key: :author_id, dependent: :destroy
 
   validates_uniqueness_of :email
 
@@ -16,17 +18,33 @@ class User < ApplicationRecord
     super({
           only: [:id, :email],
           include: {
-          invoices: {
-              only: [:id, :name, :description],
-              methods: :value
-          },
-          transaction_categories: {
-              only: [:id, :name]
-          },
-          transactions: {
-              only: [:id, :name, :description, :value,
-                     :invoice_id, :transaction_category_id]
-          }
+            invoices: {
+                only: [:id, :name, :description],
+                methods: :value
+            },
+            transaction_categories: {
+                only: [:id, :name]
+            },
+            transactions: {
+                only: [:id, :name, :description, :value,
+                       :invoice_id, :transaction_category_id]
+            },
+            issued: {
+                only: [:id, :description, :state, :value, :fee, :expired_at],
+                include: {
+                    author: {
+                        only: [:id, :email]
+                    }
+                }
+            },
+            issuer: {
+                only: [:id, :description, :state, :value, :fee, :expired_at],
+                include: {
+                    issued: {
+                        only: [:id, :email]
+                    }
+                }
+            }
         }
       }.merge(_opt || {})
     )

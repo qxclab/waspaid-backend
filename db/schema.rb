@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_23_154649) do
+ActiveRecord::Schema.define(version: 2018_09_23_194827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "credits", force: :cascade do |t|
+    t.string "description"
+    t.string "state"
+    t.bigint "author_id"
+    t.bigint "issued_id"
+    t.decimal "value"
+    t.decimal "fee"
+    t.datetime "expired_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_credits_on_author_id"
+    t.index ["issued_id"], name: "index_credits_on_issued_id"
+  end
 
   create_table "invoices", force: :cascade do |t|
     t.string "name"

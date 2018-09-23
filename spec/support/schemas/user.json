@@ -5,13 +5,17 @@
     "email",
     "invoices",
     "transaction_categories",
-    "transactions"
+    "transactions",
+    "issued",
+    "issuer"
   ],
   "properties": {
     "id" : { "type" : "integer" },
     "email" : { "type" : "string" },
     "invoices": { "type" : "array" },
     "transaction_categories": { "type" : "array" },
-    "transactions": { "type" : "array" }
+    "transactions": { "type" : "array" },
+    "issued": { "type" : "array" },
+    "issuer": { "type" : "array" }
   }
 }
