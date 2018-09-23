@@ -1,6 +1,6 @@
 Fabricator(:invoice) do
-  name        "MyString"
-  description "MyString"
-  value       "9.99"
-  user        nil
+  name        { Faker::Bank.account_number }
+  description { Faker::Bank.name }
+  value       { Faker::Number.decimal(2) }
+  user        { Fabricate(:user) }
 end

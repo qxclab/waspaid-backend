@@ -1,6 +1,7 @@
 Fabricator(:transaction) do
-  name                 "MyString"
-  description          "MyString"
-  invoice              nil
-  transaction_category nil
+  name                 { Faker::Science.element }
+  description          { Faker::Lovecraft.sentence }
+  invoice              { Fabricate(:invoice) }
+  value                { Faker::Number.decimal(2) }
+  transaction_category { Fabricate(:transaction_category, user: User.last) }
 end

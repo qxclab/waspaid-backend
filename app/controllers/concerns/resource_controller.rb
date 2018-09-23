@@ -71,21 +71,11 @@ module Concerns
 
       def resource
         @resource ||= resource_class.find(params[:id])
-        rescue ActiveRecord::RecordNotFound
-          @resource = nil
-          render json: {
-              errors: [
-                  {
-                      status: '404',
-                      title: 'Record Not Found'
-                  }
-              ]
-          }, status: :not_found
-        end
-    end
+      end
 
-    def build_resource
-      @resource ||= resource_class.new
+      def build_resource
+        @resource ||= resource_class.new
+      end
     end
   end
 end

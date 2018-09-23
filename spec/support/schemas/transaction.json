@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "required" : [
+    "id",
+    "name",
+    "description",
+    "value",
+    "invoice_id",
+    "transaction_category_id",
+    "invoice",
+    "transaction_category"
+  ],
+  "properties": {
+    "id" : { "type" : "integer" },
+    "name" : { "type" : "string" },
+    "description" : { "type" : ["string", "null"] },
+    "value" : { "type" : "string" },
+    "invoice_id" : { "type" : "number" },
+    "transaction_category_id" : { "type" : [ "number", "null" ] },
+    "invoice" : { "type" : "object" },
+    "transaction_category" : { "type" : [ "object", "null" ] }
+  }
+}

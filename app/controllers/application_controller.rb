@@ -11,6 +11,17 @@ class ApplicationController < ActionController::API
     }, status: :unauthorized
   end
 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render json: {
+        errors: [
+            {
+                status: '404',
+                title: 'Record Not Found'
+            }
+        ]
+    }, status: :not_found
+  end
+
   def render_resource(resource, _opt = nil)
     if resource.errors.empty?
       render json: resource.as_json(_opt)

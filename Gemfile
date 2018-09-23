@@ -14,18 +14,19 @@ gem 'devise', '~> 4.2'
 gem 'devise-jwt', '~> 0.5.8'
 gem 'cancancan', '~> 2.3'
 
-group :test do
-  gem 'json-schema'
-end
-
 group :development, :test do
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
     gem lib, :git => "https://github.com/rspec/#{lib}.git", :branch => 'master'
   end
+end
+
+group :test do
+  gem 'json-schema'
   gem 'fabrication', '~> 2.20', '>= 2.20.1'
   gem 'faker', '~> 1.9', '>= 1.9.1'
+  gem 'database_cleaner', '~> 1.7'
   gem 'coveralls', require: false
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
 group :development do

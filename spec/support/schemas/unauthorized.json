@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required" : [
+    "errors"
+  ],
+  "properties": {
+    "errors" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "required" : [
+          "status",
+          "title"
+        ],
+        "properties" : {
+          "status" : { "type" : "string" },
+          "title" : { "type" : "string" }
+        }
+      }
+    }
+  }
+}

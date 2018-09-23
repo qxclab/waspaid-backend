@@ -17,13 +17,14 @@ class User < ApplicationRecord
           only: [:id, :email],
           include: {
           invoices: {
-              only: [:id, :name, :description, :value]
+              only: [:id, :name, :description],
+              methods: :value
           },
           transaction_categories: {
               only: [:id, :name]
           },
           transactions: {
-              only: [:id, :name, :description,
+              only: [:id, :name, :description, :value,
                      :invoice_id, :transaction_category_id]
           }
         }

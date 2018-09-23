@@ -1,4 +1,4 @@
 Fabricator(:transaction_category) do
-  name "MyString"
-  user nil
+  name        { Faker::Science.element }
+  user        { Fabricate(:user) }
 end

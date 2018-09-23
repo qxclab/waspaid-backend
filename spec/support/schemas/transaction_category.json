@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "required" : [
+    "id",
+    "name",
+    "transactions"
+  ],
+  "properties": {
+    "id" : { "type" : "integer" },
+    "name" : { "type" : "string" },
+    "transactions": { "type" : "array" }
+  }
+}
