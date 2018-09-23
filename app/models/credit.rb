@@ -5,6 +5,7 @@ class Credit < ApplicationRecord
   belongs_to :issued, class_name: :User, foreign_key: :issued_id
 
   validates :value,  numericality: { greater_than: 0 }
+  validate :author_not_equal_to_issuer
 
   aasm column: :state do
     state :issued, :initial => true
@@ -22,7 +23,7 @@ class Credit < ApplicationRecord
     end
 
     event :confirm_money_transfer do
-      transitions from: :confirmed, to: :transfer_money
+      transitions from: :confirmed, to: :money_transferred
     end
 
     event :pay do
@@ -64,5 +65,11 @@ class Credit < ApplicationRecord
           }
       }.merge(_opt || {})
     )
+  end
+
+  private
+
+  def author_not_equal_to_issuer
+    errors.add(:issued, 'can\'t be equal to author') if self.author == self.issued
   end
 end

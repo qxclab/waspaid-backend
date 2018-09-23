@@ -6,31 +6,57 @@ class CreditsController < ApplicationController
                                     reject_payment confirm_payment forgive]
 
   def confirm_credit
-    render_resource(@resource)
+    if @resource.may_confirm_credit?
+      @resource.confirm_credit!
+      render_resource(@resource)
+    else
+      render_resource(@resource, errors: 'Cannot confirm credit')
+    end
   end
 
   def confirm_money_transfer
-    render_resource(@resource)
+    if @resource.may_confirm_money_transfer?
+      @resource.confirm_money_transfer!
+      render_resource(@resource)
+    else
+      render_resource(@resource, errors: 'Cannot confirm money transfer')
+    end
   end
 
   def pay
-    render_resource(@resource)
+    if @resource.may_pay?
+      @resource.pay!
+      render_resource(@resource)
+    else
+      render_resource(@resource, errors: 'Cannot pay')
+    end
   end
 
   def reject_payment
-    render_resource(@resource)
-  end
-
-  def confirm_part_payment
-    render_resource(@resource)
+    if @resource.may_reject_payment?
+      @resource.reject_payment!
+      render_resource(@resource)
+    else
+      render_resource(@resource, errors: 'Cannot reject payment')
+    end
   end
 
   def confirm_payment
-    render_resource(@resource)
+    if @resource.may_confirm_payment?
+      @resource.confirm_payment!
+      render_resource(@resource)
+    else
+      render_resource(@resource, errors: 'Cannot confirm payment')
+    end
   end
 
   def forgive
-    render_resource(@resource)
+    if @resource.may_forgive?
+      @resource.forgive!
+      render_resource(@resource)
+    else
+      render_resource(@resource, errors: 'Cannot forgive')
+    end
   end
 
   private
