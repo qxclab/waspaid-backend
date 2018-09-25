@@ -4,6 +4,8 @@ class Credit < ApplicationRecord
   belongs_to :author, class_name: :User, foreign_key: :author_id
   belongs_to :issued, class_name: :User, foreign_key: :issued_id
 
+  after_create :save_initial_value
+
   validates :value,  numericality: { greater_than: 0 }
   validate :author_not_equal_to_issuer
 
@@ -53,8 +55,9 @@ class Credit < ApplicationRecord
 
 
   def as_json(_opt = nil)
+    return super(_opt) if _opt
     super({
-          only: [:id, :description, :state, :value, :fee, :expired_at],
+          only: [:id, :description, :state, :value, :initial_value, :fee, :pending_money, :expired_at],
           include: {
               author: {
                   only: [:id, :email]
@@ -63,7 +66,7 @@ class Credit < ApplicationRecord
                   only: [:id, :email]
               }
           }
-      }.merge(_opt || {})
+      }
     )
   end
 
@@ -71,5 +74,10 @@ class Credit < ApplicationRecord
 
   def author_not_equal_to_issuer
     errors.add(:issued, 'can\'t be equal to author') if self.author == self.issued
+  end
+
+  def save_initial_value
+    self.initial_value = self.value
+    self.save
   end
 end

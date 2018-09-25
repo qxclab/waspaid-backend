@@ -6,57 +6,76 @@ class CreditsController < ApplicationController
                                     reject_payment confirm_payment forgive]
 
   def confirm_credit
-    if @resource.may_confirm_credit?
-      @resource.confirm_credit!
-      render_resource(@resource)
-    else
-      render_resource(@resource, errors: 'Cannot confirm credit')
-    end
+    @resource.confirm_credit!
+    render_resource(@resource)
+  rescue
+    render_resource(@resource, errors: 'Cannot confirm credit')
   end
 
   def confirm_money_transfer
-    if @resource.may_confirm_money_transfer?
-      @resource.confirm_money_transfer!
-      render_resource(@resource)
-    else
-      render_resource(@resource, errors: 'Cannot confirm money transfer')
+    @resource.confirm_money_transfer
+    value = @resource.value
+    author_invoice = params[:credit]&[:invoice].to_i || @resource.author.invoices.first
+    issued_invoice = @resource.issued.invoices.first
+    @resource.value = value + @resource.fee.to_f
+    ActiveRecord::Base.transaction do
+      @resource.save!
+      Transaction.create!(name: 'Credit from user', invoice: issued_invoice, value: value)
+      Transaction.create!(name: 'Credit to user', invoice: author_invoice, value: -value)
     end
+    render_resource(@resource)
+  rescue
+    render_resource(@resource, errors: 'Cannot confirm money transfer')
   end
 
   def pay
-    if @resource.may_pay?
-      @resource.pay!
-      render_resource(@resource)
-    else
-      render_resource(@resource, errors: 'Cannot pay')
-    end
+    @resource.pay
+    @resource.pending_money = params[:credit][:value].to_f
+    @resource.save!
+    render_resource(@resource)
+  rescue
+    render_resource(@resource, errors: 'Cannot pay')
   end
 
   def reject_payment
-    if @resource.may_reject_payment?
-      @resource.reject_payment!
-      render_resource(@resource)
-    else
-      render_resource(@resource, errors: 'Cannot reject payment')
-    end
+    @resource.reject_payment
+    @resource.pending_money = nil
+    @resource.save!
+    render_resource(@resource)
+  rescue
+    render_resource(@resource, errors: 'Cannot reject payment')
   end
 
   def confirm_payment
-    if @resource.may_confirm_payment?
-      @resource.confirm_payment!
-      render_resource(@resource)
+    pending_money = @resource.pending_money
+    @resource.value -= pending_money
+    @resource.pending_money = nil
+    if @resource.value == 0
+      if @resource.expired_at && @resource.expired_at < DateTime.now
+        @resource.confirm_late_payment
+      else
+        @resource.confirm_payment
+      end
     else
-      render_resource(@resource, errors: 'Cannot confirm payment')
+      @resource.confirm_part_payment
     end
+    author_invoice = params[:credit]&[:invoice].to_i || @resource.author.invoices.first
+    issued_invoice = @resource.issued.invoices.first
+    ActiveRecord::Base.transaction do
+      @resource.save!
+      Transaction.create!(name: 'Pay for credit', invoice: issued_invoice, value: -pending_money)
+      Transaction.create!(name: 'Pay for credit', invoice: author_invoice, value: pending_money)
+    end
+    render_resource(@resource)
+  rescue
+    render_resource(@resource, errors: 'Cannot confirm payment')
   end
 
   def forgive
-    if @resource.may_forgive?
-      @resource.forgive!
-      render_resource(@resource)
-    else
-      render_resource(@resource, errors: 'Cannot forgive')
-    end
+    @resource.forgive!
+    render_resource(@resource)
+  rescue
+    render_resource(@resource, errors: 'Cannot forgive')
   end
 
   private

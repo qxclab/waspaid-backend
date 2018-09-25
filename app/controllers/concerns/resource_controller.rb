@@ -11,7 +11,7 @@ module Concerns
       before_action :resource, only: %i[show update destroy]
 
       def index
-        render json: resource_class.all.select{|x| can?(:manage, x) }.map(&:as_json)
+        render json: resource_class.all.select{|x| can?(:read, x) }.map(&:as_json)
       end
 
       def show
@@ -29,10 +29,13 @@ module Concerns
       end
 
       def destroy
-        @resource.destroy
-        render json: {
-            success: :true
-        }, status: :ok
+        if @resource.destroy
+          render json: {
+              success: :true
+          }, status: :ok
+        else
+          render_resource(@resource)
+        end
       end
 
       private
