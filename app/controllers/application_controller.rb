@@ -22,8 +22,18 @@ class ApplicationController < ActionController::API
     }, status: :not_found
   end
 
-  def render_resource(resource, _opt = nil)
-    if resource.errors.empty?
+  def render_resource(resource, _opt: nil, errors: nil)
+    if errors
+      render json: {
+          errors: [
+              {
+                  status: '400',
+                  title: 'Bad Request',
+                  detail: errors
+              }
+          ]
+      }, status: :bad_request
+    elsif resource.errors.empty?
       render json: resource.as_json(_opt)
     else
       validation_error(resource)

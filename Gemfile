@@ -9,6 +9,9 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rack-cors'
 
+# logic
+gem 'aasm', '~> 5.0', '>= 5.0.1'
+
 # auth
 gem 'devise', '~> 4.2'
 gem 'devise-jwt', '~> 0.5.8'
