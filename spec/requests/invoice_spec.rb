@@ -27,7 +27,7 @@ RSpec.describe 'GET /invoices', type: :request do
         JSON.parse(response.body)
       }.to_not raise_error
       result = JSON(response.body)
-      expect(result.length).to eq(1)
+      expect(result.length).to eq(2)
     end
   end
 end
@@ -74,7 +74,7 @@ RSpec.describe 'GET /invoices/:id', type: :request do
 
   context 'test invoice that not exist' do
     before do
-      get "#{url}/#{invoice2.id + 1}", headers: auth_headers
+      get "#{url}/#{invoice2.id + 2}", headers: auth_headers
     end
 
     it 'returns 404' do

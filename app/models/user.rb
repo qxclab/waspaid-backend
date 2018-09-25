@@ -12,9 +12,13 @@ class User < ApplicationRecord
   has_many :issued, class_name: :Credit, foreign_key: :issued_id, dependent: :destroy
   has_many :issuer, class_name: :Credit, foreign_key: :author_id, dependent: :destroy
 
+  after_create :create_cash_invoice
+
   validates_uniqueness_of :email
+  validates :invoices, presence: true, if: Proc.new { |x| x.id.present? }
 
   def as_json(_opt = nil)
+    return super(_opt) if _opt
     super({
           only: [:id, :email],
           include: {
@@ -30,7 +34,7 @@ class User < ApplicationRecord
                        :invoice_id, :transaction_category_id]
             },
             issued: {
-                only: [:id, :description, :state, :value, :fee, :expired_at],
+                only: [:id, :description, :state, :value, :initial_value, :fee, :pending_money, :expired_at],
                 include: {
                     author: {
                         only: [:id, :email]
@@ -38,7 +42,7 @@ class User < ApplicationRecord
                 }
             },
             issuer: {
-                only: [:id, :description, :state, :value, :fee, :expired_at],
+                only: [:id, :description, :state, :value, :initial_value, :fee, :pending_money, :expired_at],
                 include: {
                     issued: {
                         only: [:id, :email]
@@ -46,7 +50,13 @@ class User < ApplicationRecord
                 }
             }
         }
-      }.merge(_opt || {})
+      }
     )
+  end
+
+  private
+
+  def create_cash_invoice
+    Invoice.create!(name: 'Cash', user: self, description: 'This is example invoice for cash tracking', value: 0.0)
   end
 end

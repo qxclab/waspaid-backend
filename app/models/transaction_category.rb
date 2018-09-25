@@ -5,6 +5,7 @@ class TransactionCategory < ApplicationRecord
   validates :name, presence: true
 
   def as_json(_opt = nil)
+    return super(_opt) if _opt
     super({
           only: [:id, :name],
           include: {
@@ -13,7 +14,7 @@ class TransactionCategory < ApplicationRecord
                          :invoice_id, :transaction_category_id]
               }
           }
-      }.merge(_opt || {})
+      }
     )
   end
 end

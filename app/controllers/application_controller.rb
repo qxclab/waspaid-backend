@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
     }, status: :not_found
   end
 
-  def render_resource(resource, _opt: nil, errors: nil)
+  def render_resource(resource=nil, _opt: nil, errors: nil)
     if errors
       render json: {
           errors: [
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::API
               }
           ]
       }, status: :bad_request
-    elsif resource.errors.empty?
+    elsif resource&.errors.empty?
       render json: resource.as_json(_opt)
     else
       validation_error(resource)
@@ -46,7 +46,7 @@ class ApplicationController < ActionController::API
             {
                 status: '400',
                 title: 'Bad Request',
-                detail: resource.errors
+                detail: resource&.errors
             }
         ]
     }, status: :bad_request

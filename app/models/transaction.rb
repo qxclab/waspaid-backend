@@ -6,6 +6,7 @@ class Transaction < ApplicationRecord
   validates :name, :value, presence: true
 
   def as_json(_opt = nil)
+    return super(_opt) if _opt
     super({
           only: [
               :id, :name, :description, :value,
@@ -20,7 +21,7 @@ class Transaction < ApplicationRecord
                   only: [:id, :name]
               }
           }
-      }.merge(_opt || {})
+      }
     )
   end
 end
