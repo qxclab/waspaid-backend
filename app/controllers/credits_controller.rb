@@ -1,7 +1,7 @@
 class CreditsController < ApplicationController
   include Concerns::ResourceController
   before_action :set_author, only: :create
-  before_action :resource, only: %i[show update destroy
+  before_action :resource, only: %i[show destroy
                                     confirm_credit confirm_money_transfer pay
                                     reject_payment confirm_payment forgive]
 
@@ -15,7 +15,7 @@ class CreditsController < ApplicationController
   def confirm_money_transfer
     @resource.confirm_money_transfer
     value = @resource.value
-    author_invoice = params[:credit]&[:invoice].to_i || @resource.author.invoices.first
+    author_invoice = params[:credit] & [:invoice].to_i || @resource.author.invoices.first
     issued_invoice = @resource.issued.invoices.first
     @resource.value = value + @resource.fee.to_f
     ActiveRecord::Base.transaction do
@@ -59,7 +59,7 @@ class CreditsController < ApplicationController
     else
       @resource.confirm_part_payment
     end
-    author_invoice = params[:credit]&[:invoice].to_i || @resource.author.invoices.first
+    author_invoice = params[:credit] & [:invoice].to_i || @resource.author.invoices.first
     issued_invoice = @resource.issued.invoices.first
     ActiveRecord::Base.transaction do
       @resource.save!

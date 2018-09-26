@@ -2,8 +2,8 @@ require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
 RSpec.describe 'POST /login', type: :request do
-  let(:user) { Fabricate(:user) }
-  let(:url) { '/login' }
+  let(:user) {Fabricate(:user)}
+  let(:url) {'/login'}
   let(:params) do
     {
         user: {
@@ -28,7 +28,7 @@ RSpec.describe 'POST /login', type: :request do
   end
 
   context 'when login params are incorrect' do
-    before { post url }
+    before {post url}
 
     it 'returns unathorized status' do
       expect(response.status).to eq 401
@@ -37,7 +37,7 @@ RSpec.describe 'POST /login', type: :request do
 end
 
 RSpec.describe 'DELETE /logout', type: :request do
-  let(:url) { '/logout' }
+  let(:url) {'/logout'}
 
   it 'returns 200' do
     delete url

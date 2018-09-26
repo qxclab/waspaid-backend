@@ -1,0 +1,83 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "description",
+    "state",
+    "value",
+    "initial_value",
+    "fee",
+    "pending_money",
+    "expired_at",
+    "author",
+    "issued"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "initial_value": {
+      "type": "string"
+    },
+    "fee": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pending_money": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "expired_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "author": {
+      "type": "object",
+      "required": [
+        "id",
+        "email"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "issued": {
+      "type": "object",
+      "required": [
+        "id",
+        "email"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

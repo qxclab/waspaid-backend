@@ -11,7 +11,7 @@ module Concerns
       before_action :resource, only: %i[show update destroy]
 
       def index
-        render json: resource_class.all.select{|x| can?(:read, x) }.map(&:as_json)
+        render json: resource_class.all.select {|x| can?(:read, x)}.map(&:as_json)
       end
 
       def show

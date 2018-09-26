@@ -1,20 +1,24 @@
 {
   "type": "object",
-  "required" : [
+  "required": [
     "errors"
   ],
   "properties": {
-    "errors" : {
-      "type" : "array",
-      "items" : {
-        "type" : "object",
-        "required" : [
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
           "status",
           "title"
         ],
-        "properties" : {
-          "status" : { "type" : "string" },
-          "title" : { "type" : "string" }
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
         }
       }
     }

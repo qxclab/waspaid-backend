@@ -2,14 +2,14 @@ require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
 RSpec.describe 'GET /invoices', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:url) { '/invoices' }
+  let(:url) {'/invoices'}
 
   context 'test index' do
     before do
@@ -22,7 +22,7 @@ RSpec.describe 'GET /invoices', type: :request do
       expect(response).to have_http_status(200)
     end
 
-    it 'return only 1 invoice' do
+    it 'return only 2 invoice' do
       expect {
         JSON.parse(response.body)
       }.to_not raise_error
@@ -33,16 +33,16 @@ RSpec.describe 'GET /invoices', type: :request do
 end
 
 RSpec.describe 'GET /invoices/:id', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:invoice1) { Fabricate(:invoice, user: user) }
-  let(:invoice2) { Fabricate(:invoice) }
-  let(:url) { '/invoices' }
+  let(:invoice1) {Fabricate(:invoice, user: user)}
+  let(:invoice2) {Fabricate(:invoice)}
+  let(:url) {'/invoices'}
 
   context 'test invoice that belongs to user' do
     before do
@@ -88,15 +88,15 @@ RSpec.describe 'GET /invoices/:id', type: :request do
 end
 
 RSpec.describe 'POST /invoices', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:invoice) { Fabricate(:invoice) }
-  let(:url) { '/invoices' }
+  let(:invoice) {Fabricate(:invoice)}
+  let(:url) {'/invoices'}
   let(:params) do
     {
         invoice: {
@@ -127,15 +127,15 @@ RSpec.describe 'POST /invoices', type: :request do
 end
 
 RSpec.describe 'PUT /invoices/:id', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:invoice) { Fabricate(:invoice, user: user) }
-  let(:url) { '/invoices' }
+  let(:invoice) {Fabricate(:invoice, user: user)}
+  let(:url) {'/invoices'}
   let(:params) do
     {
         invoice: {
@@ -172,16 +172,16 @@ RSpec.describe 'PUT /invoices/:id', type: :request do
 end
 
 RSpec.describe 'DELETE /invoices/:id', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:invoice1) { Fabricate(:invoice, user: user) }
-  let(:invoice2) { Fabricate(:invoice) }
-  let(:url) { '/invoices' }
+  let(:invoice1) {Fabricate(:invoice, user: user)}
+  let(:invoice2) {Fabricate(:invoice)}
+  let(:url) {'/invoices'}
 
   context 'test invoice that belongs to user' do
     before do
@@ -194,6 +194,20 @@ RSpec.describe 'DELETE /invoices/:id', type: :request do
 
     it 'match the schema' do
       expect(response).to match_response_schema('success')
+    end
+  end
+
+  context 'ensure that user has at least one invoice' do
+    before do
+      delete "#{url}/#{user.invoices.last.id}", headers: auth_headers
+    end
+
+    it 'returns 400' do
+      expect(response).to have_http_status(400)
+    end
+
+    it 'match the schema' do
+      expect(response).to match_response_schema('bad_request')
     end
   end
 

@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "required" : [
+  "required": [
     "id",
     "email",
     "invoices",
@@ -10,12 +10,26 @@
     "issuer"
   ],
   "properties": {
-    "id" : { "type" : "integer" },
-    "email" : { "type" : "string" },
-    "invoices": { "type" : "array" },
-    "transaction_categories": { "type" : "array" },
-    "transactions": { "type" : "array" },
-    "issued": { "type" : "array" },
-    "issuer": { "type" : "array" }
+    "id": {
+      "type": "integer"
+    },
+    "email": {
+      "type": "string"
+    },
+    "invoices": {
+      "type": "array"
+    },
+    "transaction_categories": {
+      "type": "array"
+    },
+    "transactions": {
+      "type": "array"
+    },
+    "issued": {
+      "type": "array"
+    },
+    "issuer": {
+      "type": "array"
+    }
   }
 }

@@ -8,20 +8,20 @@ class Transaction < ApplicationRecord
   def as_json(_opt = nil)
     return super(_opt) if _opt
     super({
-          only: [
-              :id, :name, :description, :value,
-              :invoice_id, :transaction_category_id
-          ],
-          include: {
-              invoice: {
-                  only: [:id, :name, :description],
-                  methods: :value
-              },
-              transaction_category: {
-                  only: [:id, :name]
+              only: [
+                  :id, :name, :description, :value,
+                  :invoice_id, :transaction_category_id
+              ],
+              include: {
+                  invoice: {
+                      only: [:id, :name, :description],
+                      methods: :value
+                  },
+                  transaction_category: {
+                      only: [:id, :name]
+                  }
               }
           }
-      }
     )
   end
 end

@@ -15,42 +15,42 @@ class User < ApplicationRecord
   after_create :create_cash_invoice
 
   validates_uniqueness_of :email
-  validates :invoices, presence: true, if: Proc.new { |x| x.id.present? }
+  validates :invoices, presence: true, if: Proc.new {|x| x.id.present?}
 
   def as_json(_opt = nil)
     return super(_opt) if _opt
     super({
-          only: [:id, :email],
-          include: {
-            invoices: {
-                only: [:id, :name, :description],
-                methods: :value
-            },
-            transaction_categories: {
-                only: [:id, :name]
-            },
-            transactions: {
-                only: [:id, :name, :description, :value,
-                       :invoice_id, :transaction_category_id]
-            },
-            issued: {
-                only: [:id, :description, :state, :value, :initial_value, :fee, :pending_money, :expired_at],
-                include: {
-                    author: {
-                        only: [:id, :email]
-                    }
-                }
-            },
-            issuer: {
-                only: [:id, :description, :state, :value, :initial_value, :fee, :pending_money, :expired_at],
-                include: {
-                    issued: {
-                        only: [:id, :email]
-                    }
-                }
-            }
-        }
-      }
+              only: [:id, :email],
+              include: {
+                  invoices: {
+                      only: [:id, :name, :description],
+                      methods: :value
+                  },
+                  transaction_categories: {
+                      only: [:id, :name]
+                  },
+                  transactions: {
+                      only: [:id, :name, :description, :value,
+                             :invoice_id, :transaction_category_id]
+                  },
+                  issued: {
+                      only: [:id, :description, :state, :value, :initial_value, :fee, :pending_money, :expired_at],
+                      include: {
+                          author: {
+                              only: [:id, :email]
+                          }
+                      }
+                  },
+                  issuer: {
+                      only: [:id, :description, :state, :value, :initial_value, :fee, :pending_money, :expired_at],
+                      include: {
+                          issued: {
+                              only: [:id, :email]
+                          }
+                      }
+                  }
+              }
+          }
     )
   end
 

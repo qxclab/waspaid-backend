@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "required" : [
+  "required": [
     "id",
     "name",
     "description",
@@ -8,10 +8,23 @@
     "transactions"
   ],
   "properties": {
-    "id" : { "type" : "integer" },
-    "name" : { "type" : "string" },
-    "description" : { "type" : ["string", "null"] },
-    "value": { "type" : "string" },
-    "transactions": { "type" : "array" }
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "value": {
+      "type": "string"
+    },
+    "transactions": {
+      "type": "array"
+    }
   }
 }
