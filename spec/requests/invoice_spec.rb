@@ -22,7 +22,7 @@ RSpec.describe 'GET /invoices', type: :request do
       expect(response).to have_http_status(200)
     end
 
-    it 'return only 1 invoice' do
+    it 'return only 2 invoice' do
       expect {
         JSON.parse(response.body)
       }.to_not raise_error
