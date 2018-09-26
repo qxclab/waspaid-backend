@@ -197,6 +197,20 @@ RSpec.describe 'DELETE /invoices/:id', type: :request do
     end
   end
 
+  context 'ensure that user has at least one invoice' do
+    before do
+      delete "#{url}/#{user.invoices.last.id}", headers: auth_headers
+    end
+
+    it 'returns 400' do
+      expect(response).to have_http_status(400)
+    end
+
+    it 'match the schema' do
+      expect(response).to match_response_schema('bad_request')
+    end
+  end
+
   context 'test invoice that not belongs to user' do
     before do
       delete "#{url}/#{invoice2.id}", headers: auth_headers
