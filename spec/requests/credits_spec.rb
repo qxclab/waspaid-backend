@@ -69,6 +69,11 @@ RSpec.describe 'GET /credits/:id', type: :request do
         JSON.parse(response.body)
       }.to_not raise_error
     end
+
+    it 'author set to current_user' do
+      result = JSON.parse(response.body)
+      expect(result['author']['id']).to eq(author.id)
+    end
   end
 
   context 'test credit that not belongs to user' do
