@@ -1,7 +1,7 @@
 class CreditsController < ApplicationController
   include Concerns::ResourceController
   before_action :set_author, only: :create
-  before_action :resource, only: %i[show update destroy
+  before_action :resource, only: %i[show destroy
                                     confirm_credit confirm_money_transfer pay
                                     reject_payment confirm_payment forgive]
 
