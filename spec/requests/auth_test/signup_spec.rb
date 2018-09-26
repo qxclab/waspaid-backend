@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'POST /signup', type: :request do
-  let(:url) { '/signup' }
+  let(:url) {'/signup'}
   let(:params) do
     {
         user: {
@@ -12,7 +12,7 @@ RSpec.describe 'POST /signup', type: :request do
   end
 
   context 'when user is unauthenticated' do
-    before { post url, params: params }
+    before {post url, params: params}
 
     it 'returns 200' do
       expect(response.status).to eq 200

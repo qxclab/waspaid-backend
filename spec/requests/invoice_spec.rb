@@ -2,14 +2,14 @@ require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
 RSpec.describe 'GET /invoices', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:url) { '/invoices' }
+  let(:url) {'/invoices'}
 
   context 'test index' do
     before do
@@ -33,16 +33,16 @@ RSpec.describe 'GET /invoices', type: :request do
 end
 
 RSpec.describe 'GET /invoices/:id', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:invoice1) { Fabricate(:invoice, user: user) }
-  let(:invoice2) { Fabricate(:invoice) }
-  let(:url) { '/invoices' }
+  let(:invoice1) {Fabricate(:invoice, user: user)}
+  let(:invoice2) {Fabricate(:invoice)}
+  let(:url) {'/invoices'}
 
   context 'test invoice that belongs to user' do
     before do
@@ -88,15 +88,15 @@ RSpec.describe 'GET /invoices/:id', type: :request do
 end
 
 RSpec.describe 'POST /invoices', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:invoice) { Fabricate(:invoice) }
-  let(:url) { '/invoices' }
+  let(:invoice) {Fabricate(:invoice)}
+  let(:url) {'/invoices'}
   let(:params) do
     {
         invoice: {
@@ -127,15 +127,15 @@ RSpec.describe 'POST /invoices', type: :request do
 end
 
 RSpec.describe 'PUT /invoices/:id', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:invoice) { Fabricate(:invoice, user: user) }
-  let(:url) { '/invoices' }
+  let(:invoice) {Fabricate(:invoice, user: user)}
+  let(:url) {'/invoices'}
   let(:params) do
     {
         invoice: {
@@ -172,16 +172,16 @@ RSpec.describe 'PUT /invoices/:id', type: :request do
 end
 
 RSpec.describe 'DELETE /invoices/:id', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:invoice1) { Fabricate(:invoice, user: user) }
-  let(:invoice2) { Fabricate(:invoice) }
-  let(:url) { '/invoices' }
+  let(:invoice1) {Fabricate(:invoice, user: user)}
+  let(:invoice2) {Fabricate(:invoice)}
+  let(:url) {'/invoices'}
 
   context 'test invoice that belongs to user' do
     before do

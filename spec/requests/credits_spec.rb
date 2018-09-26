@@ -2,14 +2,14 @@ require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
 RSpec.describe 'GET /credits', type: :request do
-  let(:user) { Fabricate(:user) }
+  let(:user) {Fabricate(:user)}
   let(:auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         user
     )
   end
-  let(:url) { '/credits' }
+  let(:url) {'/credits'}
 
   context 'test index' do
     before do
@@ -33,23 +33,23 @@ RSpec.describe 'GET /credits', type: :request do
 end
 
 RSpec.describe 'GET /credits/:id', type: :request do
-  let(:author) { Fabricate(:user) }
-  let(:issued) { Fabricate(:user) }
+  let(:author) {Fabricate(:user)}
+  let(:issued) {Fabricate(:user)}
   let(:author_auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         author
     )
   end
   let(:issued_auth_headers) do
     Devise::JWT::TestHelpers.auth_headers(
-        { 'Accept' => 'application/json', 'Content-Type' => 'application/json' },
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
         author
     )
   end
-  let(:credit) { Fabricate(:credit, author: author, issued: issued) }
-  let(:credit1) { Fabricate(:credit) }
-  let(:url) { '/credits' }
+  let(:credit) {Fabricate(:credit, author: author, issued: issued)}
+  let(:credit1) {Fabricate(:credit)}
+  let(:url) {'/credits'}
 
   context 'test credit that belongs to user' do
     before do
@@ -89,6 +89,92 @@ RSpec.describe 'GET /credits/:id', type: :request do
       expect(response).to match_response_schema('unauthorized')
     end
   end
+
+  context 'test credit lifecycle' do
+    before do
+      get "#{url}/#{credit1.id}", headers: author_auth_headers
+    end
+  end
+end
+
+
+RSpec.describe 'POST /credits', type: :request do
+  let(:user) {Fabricate(:user)}
+  let(:auth_headers) do
+    Devise::JWT::TestHelpers.auth_headers(
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        user
+    )
+  end
+  let(:credit) {Fabricate(:credit)}
+  let(:url) {'/credits'}
+
+  context 'test credit' do
+    before do
+      params = {
+          credit: {
+              description: credit.description,
+              value: credit.value,
+              issued_id: credit.issued.id,
+          }
+      }.to_json
+      post url, params: params, headers: auth_headers
+    end
+
+    it 'returns 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'belongs to user' do
+      expect(Credit.last.author.id).to eq(user.id)
+    end
+
+    it 'match the schema' do
+      expect(response).to match_response_schema('credit')
+    end
+  end
+
+  context 'test credit if issued to user himself' do
+    before do
+      params = {
+          credit: {
+              description: credit.description,
+              value: credit.value,
+              issued_id: user.id,
+          }
+      }.to_json
+      post url, params: params, headers: auth_headers
+    end
+
+    it 'returns 400' do
+      expect(response).to have_http_status(400)
+    end
+
+    it 'match the schema' do
+      expect(response).to match_response_schema('bad_request')
+    end
+  end
+end
+
+
+RSpec.describe 'GET /credits/:id/:lifecycle_method', type: :request do
+  let(:author) {Fabricate(:user)}
+  let(:issued) {Fabricate(:user)}
+  let(:author_auth_headers) do
+    Devise::JWT::TestHelpers.auth_headers(
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        author
+    )
+  end
+  let(:issued_auth_headers) do
+    Devise::JWT::TestHelpers.auth_headers(
+        {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        author
+    )
+  end
+  let(:credit) {Fabricate(:credit, author: author, issued: issued)}
+  let(:credit1) {Fabricate(:credit)}
+  let(:url) {'/credits'}
 
   context 'test credit lifecycle' do
     before do

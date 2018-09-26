@@ -1,9 +1,11 @@
 {
   "type": "object",
-  "required" : [
+  "required": [
     "success"
   ],
   "properties": {
-    "success" : { "type" : "string" }
+    "success": {
+      "type": "string"
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "required" : [
+  "required": [
     "id",
     "description",
     "state",
@@ -13,34 +13,70 @@
     "issued"
   ],
   "properties": {
-    "id" : { "type" : "integer" },
-    "description" : { "type" : ["string", "null"] },
-    "state": { "type" : "string" },
-    "value": { "type" : "string" },
-    "initial_value": { "type" : "string" },
-    "fee": { "type" : ["string", "null"] },
-    "pending_money": { "type" : ["string", "null"] },
-    "expired_at": { "type" : ["string", "null"] },
+    "id": {
+      "type": "integer"
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "initial_value": {
+      "type": "string"
+    },
+    "fee": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pending_money": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "expired_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "author": {
-      "type" : "object",
+      "type": "object",
       "required": [
         "id",
         "email"
       ],
       "properties": {
-        "id" : { "type" : "integer" },
-        "email" : { "type" : "string" }
+        "id": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        }
       }
     },
     "issued": {
-      "type" : "object",
+      "type": "object",
       "required": [
         "id",
         "email"
       ],
       "properties": {
-        "id" : { "type" : "integer" },
-        "email" : { "type" : "string" }
+        "id": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string"
+        }
       }
     }
   }

@@ -6,7 +6,7 @@ class Credit < ApplicationRecord
 
   after_create :save_initial_value
 
-  validates :value,  numericality: { greater_than: 0 }
+  validates :value, numericality: {greater_than: 0}
   validate :author_not_equal_to_issuer
 
   aasm column: :state do
@@ -53,20 +53,19 @@ class Credit < ApplicationRecord
     end
   end
 
-
   def as_json(_opt = nil)
     return super(_opt) if _opt
     super({
-          only: [:id, :description, :state, :value, :initial_value, :fee, :pending_money, :expired_at],
-          include: {
-              author: {
-                  only: [:id, :email]
-              },
-              issued: {
-                  only: [:id, :email]
+              only: [:id, :description, :state, :value, :initial_value, :fee, :pending_money, :expired_at],
+              include: {
+                  author: {
+                      only: [:id, :email]
+                  },
+                  issued: {
+                      only: [:id, :email]
+                  }
               }
           }
-      }
     )
   end
 
