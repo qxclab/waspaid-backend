@@ -1,7 +1,7 @@
 Fabricator(:credit) do
   description {Faker::Lovecraft.sentence}
-  value {Faker::Number.decimal(2)}
-  fee {Faker::Number.decimal(2)}
+  value {rand(10...1000).to_f}
+  fee {rand(10...1000).to_f}
   expired_at {DateTime.tomorrow}
   author {Fabricate(:user)}
   issued {Fabricate(:user)}
