@@ -394,4 +394,44 @@ RSpec.describe 'POST /credits/:id/:lifecycle_method', type: :request do
       expect(result['state']).to eq('forgiven')
     end
   end
+
+  context 'test for errors' do
+
+    it 'in confirm_credit' do
+      credit = Fabricate(:credit, author: author, issued: issued)
+      post "#{url}/#{credit.id}/confirm_credit", headers: issued_auth_headers
+      post "#{url}/#{credit.id}/confirm_credit", headers: issued_auth_headers
+      expect(response).to have_http_status(400)
+    end
+
+    it 'in confirm_money_transfer' do
+      credit = Fabricate(:credit, author: author, issued: issued)
+      post "#{url}/#{credit.id}/confirm_money_transfer", headers: author_auth_headers
+      expect(response).to have_http_status(400)
+    end
+
+    it 'in pay' do
+      credit = Fabricate(:credit, author: author, issued: issued)
+      post "#{url}/#{credit.id}/pay", headers: issued_auth_headers
+      expect(response).to have_http_status(400)
+    end
+
+    it 'in confirm_payment' do
+      credit = Fabricate(:credit, author: author, issued: issued)
+      post "#{url}/#{credit.id}/confirm_payment", headers: author_auth_headers
+      expect(response).to have_http_status(400)
+    end
+
+    it 'in reject_payment' do
+      credit = Fabricate(:credit, author: author, issued: issued)
+      post "#{url}/#{credit.id}/reject_payment", headers: author_auth_headers
+      expect(response).to have_http_status(400)
+    end
+
+    it 'in forgive' do
+      credit = Fabricate(:credit, author: author, issued: issued)
+      post "#{url}/#{credit.id}/forgive", headers: author_auth_headers
+      expect(response).to have_http_status(400)
+    end
+  end
 end
