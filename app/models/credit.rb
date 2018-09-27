@@ -6,15 +6,15 @@ class Credit < ApplicationRecord
 
   after_create :save_initial_value
 
-  validates :value, numericality: {greater_than: 0}
+  validates :value, numericality: {greater_than_or_equal_to: 0}
   validate :author_not_equal_to_issuer
 
   aasm column: :state do
-    state :issued, :initial => true
+    state :issued, initial: true
     state :confirmed
     state :money_transferred
     state :pay_failed
-    state :pay_pending
+    state :pending_payment
     state :paid_partly
     state :paid
     state :late_paid
@@ -29,27 +29,27 @@ class Credit < ApplicationRecord
     end
 
     event :pay do
-      transitions from: %i[money_transferred paid_partly], to: :pay_pending
+      transitions from: %i[money_transferred paid_partly], to: :pending_payment
     end
 
     event :reject_payment do
-      transitions from: :pay_pending, to: :pay_failed
+      transitions from: :pending_payment, to: :pay_failed
     end
 
     event :confirm_part_payment do
-      transitions from: :pay_pending, to: :paid_partly
+      transitions from: :pending_payment, to: :paid_partly
     end
 
     event :confirm_payment do
-      transitions from: :pay_pending, to: :paid
+      transitions from: :pending_payment, to: :paid
     end
 
     event :confirm_late_payment do
-      transitions from: :pay_pending, to: :late_paid
+      transitions from: :pending_payment, to: :late_paid
     end
 
     event :forgive do
-      transitions from: %i[transfer_money pay_failed pay_pending paid_partly], to: :forgiven
+      transitions from: %i[money_transferred pay_failed pending_payment paid_partly], to: :forgiven
     end
   end
 
