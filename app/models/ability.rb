@@ -6,7 +6,7 @@ class Ability
     cannot :read, :all
     can :read, User
     can :manage, User, id: user.id
-    can :manage, [Invoice, TransactionCategory], user_id: user.id
+    can %i[manage calculate_daily_money], [Invoice, TransactionCategory, BudgetPlan], user_id: user.id
     can :manage, Transaction do |x|
       x.user.id == user.id
     end

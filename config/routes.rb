@@ -12,6 +12,11 @@ Rails.application.routes.draw do
              }
 
   resources :users, only: :index
+  resources :budget_plans do
+    collection do
+      get :calculate_daily_money
+    end
+  end
   resources :invoices
   resources :transaction_categories
   resources :transactions

@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_25_211045) do
+ActiveRecord::Schema.define(version: 2018_09_29_163919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "budget_plans", force: :cascade do |t|
+    t.string "name"
+    t.decimal "value"
+    t.integer "budget_item_type", default: 0
+    t.integer "transition_type", default: 0
+    t.integer "at_date"
+    t.datetime "exact_date"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_budget_plans_on_user_id"
+  end
 
   create_table "credits", force: :cascade do |t|
     t.string "description"
@@ -85,6 +98,7 @@ ActiveRecord::Schema.define(version: 2018_09_25_211045) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "budget_plans", "users"
   add_foreign_key "invoices", "users"
   add_foreign_key "transaction_categories", "users"
   add_foreign_key "transactions", "invoices"

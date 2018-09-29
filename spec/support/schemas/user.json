@@ -7,7 +7,8 @@
     "transaction_categories",
     "transactions",
     "issued",
-    "issuer"
+    "issuer",
+    "budget_plans"
   ],
   "properties": {
     "id": {
@@ -29,6 +30,9 @@
       "type": "array"
     },
     "issuer": {
+      "type": "array"
+    },
+    "budget_plans": {
       "type": "array"
     }
   }
