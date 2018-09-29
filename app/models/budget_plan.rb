@@ -9,7 +9,7 @@ class BudgetPlan < ApplicationRecord
   def as_json(_opt = nil)
     return super(_opt) if _opt
     super({
-              only: %i[id name value budget_item_type transition_type at_time exact_date]
+              only: %i[id name value budget_item_type transition_type at_date exact_date]
           }
     )
   end

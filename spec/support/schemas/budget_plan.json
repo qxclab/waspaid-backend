@@ -6,7 +6,7 @@
     "value",
     "budget_item_type",
     "transition_type",
-    "at_time",
+    "at_date",
     "exact_date"
   ],
   "properties": {
@@ -16,13 +16,16 @@
     "name": {
       "type": "string"
     },
+    "value": {
+      "type": "string"
+    },
     "budget_item_type": {
       "type": "string"
     },
     "transition_type": {
       "type": "string"
     },
-    "at_time": {
+    "at_date": {
       "type": [
         "string",
         "null"
