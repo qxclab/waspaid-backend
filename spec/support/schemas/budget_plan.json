@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "value",
+    "budget_item_type",
+    "transition_type",
+    "at_time",
+    "exact_date"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "budget_item_type": {
+      "type": "string"
+    },
+    "transition_type": {
+      "type": "string"
+    },
+    "at_time": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "exact_date": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

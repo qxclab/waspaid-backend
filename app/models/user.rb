@@ -9,13 +9,16 @@ class User < ApplicationRecord
   has_many :invoices, dependent: :destroy
   has_many :transaction_categories, dependent: :destroy
   has_many :transactions, through: :invoices, dependent: :destroy
+  has_many :budget_plans, dependent: :destroy
   has_many :issued, class_name: :Credit, foreign_key: :issued_id, dependent: :destroy
   has_many :issuer, class_name: :Credit, foreign_key: :author_id, dependent: :destroy
 
   after_create :create_cash_invoice
 
   validates_uniqueness_of :email
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :invoices, presence: true, if: Proc.new {|x| x.id.present?}
+  validates :email, :password, presence: true
 
   def as_json(_opt = nil)
     return super(_opt) if _opt
@@ -48,6 +51,9 @@ class User < ApplicationRecord
                               only: [:id, :email]
                           }
                       }
+                  },
+                  budget_plans: {
+                      only: %i[id name value budget_item_type transition_type at_time exact_date]
                   }
               }
           }
